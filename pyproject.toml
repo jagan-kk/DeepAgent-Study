@@ -1,0 +1,13 @@
+[project]
+name = "deepagent"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "deepagents>=0.6.12",
+    "dotenv>=0.9.9",
+    "langchain-google-genai>=4.2.6",
+    "langchain-openrouter>=0.2.6",
+    "pyqt6>=6.11.0",
+]
