@@ -10,3 +10,7 @@ wheels/
 .venv
 
 .env
+
+main.py
+
+gui_app.py

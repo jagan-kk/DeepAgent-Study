@@ -1,0 +1,28 @@
+============================================================
+SYSTEM / WORKSPACE AUDIT REPORT
+============================================================
+Generated     : 2026-07-07T20:48:31
+Target        : C:\Users\USER\Documents\Task\DeepAgent
+
+-- Environment --
+Python        : 3.12.13 (CPython)
+Platform      : Windows-11-10.0.26200-SP0
+Machine       : AMD64
+Executable    : C:\Users\USER\Documents\Task\DeepAgent\.venv\Scripts\python.exe
+
+-- Workspace --
+Files         : 13
+Directories   : 2
+Total size    : 278.2 KB
+Top extensions: <none>=4, .py=4, .md=3, .toml=1, .lock=1
+
+Largest files:
+    248.3 KB  uv.lock
+     12.4 KB  agent_app.py
+      8.2 KB  sys_audit.py
+      5.0 KB  gui_app.py
+      1.6 KB  main.py
+
+-- Disk --
+Total/Used/Free: 233.4 GB / 199.7 GB / 33.7 GB (85.6%)
+============================================================

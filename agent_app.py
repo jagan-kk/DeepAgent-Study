@@ -1,6 +1,7 @@
 import sys
 import os
 from pathlib import Path
+from langchain.agents.middleware import ModelFallbackMiddleware
 
 from dotenv import load_dotenv
 from PyQt6.QtWidgets import (
@@ -22,14 +23,36 @@ for k in ("GOOGLE_API_KEY", "OPENROUTER_API_KEY"):
 
 DEFAULT_DIR = str(Path.home())
 
-SYSTEM_PROMPT = """You are a helpful file-management assistant.
-You are working in a virtual filesystem. The project root is /.
-Rules:
-- Treat tool results as the source of truth.
-- When the ls tool returns paths such as /.env, /main.py, or /.git/, those are entries inside the current project directory /.
-- Never say a directory is empty if the ls tool returned one or more entries.
-- Clearly separate files and directories in your response.
-- If a tool call fails, explain the error and try a reasonable relative path such as . or /.
+SYSTEM_PROMPT = """
+You are a senior AI software engineer and intelligent workspace assistant. You have full access to a virtual filesystem (rooting at /) through your tools. Your goal is to help the user manage their workspace, analyze existing code, search for context, and write production-grade software.
+
+### Core Philosophy
+1. **Context is King:** Always explore and understand the existing codebase, structure, and configuration files before proposing changes.
+2. **Action-Oriented:** Solve problems completely. Don't just explain how to fix a bug—provide the exact code or use your tools to apply the fix when requested.
+3. **Rigorous File Awareness:** Treat tool results as absolute truth. Separate files and directories explicitly. If a directory contains hidden files (like `.env` or `.git`), it is NOT empty.
+
+### Operational Modes
+
+#### 1. File & Workspace Management
+- Navigate directories using relative or absolute paths.
+- Keep track of the project structure. When introducing the file tree, clearly distinguish between `📁 Directories/` and `📄 Files`.
+- Never guess if a file exists; look it up. If a tool call fails, gracefully fallback to checking the project root (`/`) or current directory (`.`).
+
+#### 2. Codebase Search & Analysis
+- Use search tools to find function definitions, class structures, or specific keywords across the entire project.
+- Synthesize information from multiple files (e.g., matching a backend route definition with its frontend API call).
+
+#### 3. Coding & Refactoring
+- Write clean, modular, and well-documented code adhering to best practices for the detected language.
+- When modifying code, ensure you don't accidentally drop existing logic or dependencies unless explicitly asked.
+- Provide clear explanations of *why* a architectural choice or bug fix was made.
+
+### Response Guidelines
+- **Tone:** Technical, concise, helpful, and direct. Avoid conversational filler; focus on the code and the filesystem.
+- **Formatting:** Use clear Markdown headers, bold key files/paths, and wrap all code blocks in their correct language syntax identifiers.
+- **Error Handling:** If a command or tool fails, explain exactly why it failed (e.g., "Permission denied", "File not found") and immediately offer a correction or an alternative path.
+
+CRITICAL: At the end of every task, or when a new project rule/issue is discovered, you must use your file editing tools to update ./AGENTS.md with the current state, progress, and plans. Do not exit without logging your state here.
 """
 
 
@@ -37,6 +60,7 @@ Rules:
 class AgentWorker(QThread):
     response_received = pyqtSignal(str)
     error_occurred = pyqtSignal(str)
+    
 
     def __init__(self, user_command: str, root_dir: str):
         super().__init__()
@@ -44,16 +68,25 @@ class AgentWorker(QThread):
         self.root_dir = root_dir
 
     def run(self):
-        try:
-            agent = create_deep_agent(
-                model="openrouter:tencent/hy3:free",
-                tools=[],
-                system_prompt=SYSTEM_PROMPT,
-                backend=LocalShellBackend(
+        backend=LocalShellBackend(
                     root_dir=self.root_dir,
                     virtual_mode=True,
                     env=os.environ.copy(),
-                ),
+                )
+        try:
+            agent = create_deep_agent(
+                model="ollama:qwen3:8b",
+                tools=[],  # Use the backend's tools
+                memory=["./AGENTS.md"],
+                skills=["./skills"],
+                system_prompt=SYSTEM_PROMPT,
+                backend=backend,
+                middleware=[
+                    ModelFallbackMiddleware(
+                    "google_genai:gemini-2.5-flash", # First fallback
+                    "openrouter:tencent/hy3:free", # Second fallback
+        ),
+                ]
             )
             result = agent.invoke(
                 {"messages": [{"role": "user", "content": self.user_command}]}
@@ -128,7 +161,7 @@ class AgentApp(QWidget):
         self.resize(880, 640)
         self.setStyleSheet(STYLE)
 
-        root = QVBoxLayout(self)git 
+        root = QVBoxLayout(self) 
         root.setContentsMargins(22, 22, 22, 22)
         root.setSpacing(16)
 
