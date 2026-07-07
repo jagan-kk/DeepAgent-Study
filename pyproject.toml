@@ -8,6 +8,7 @@ dependencies = [
     "deepagents>=0.6.12",
     "dotenv>=0.9.9",
     "langchain-google-genai>=4.2.6",
+    "langchain-ollama>=1.1.0",
     "langchain-openrouter>=0.2.6",
     "pyqt6>=6.11.0",
 ]

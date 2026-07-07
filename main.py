@@ -8,9 +8,12 @@ os.environ["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY")
 os.environ["OPENROUTER_API_KEY"] = os.getenv("OPENROUTER_API_KEY")
 
 
+
+
 agent= create_deep_agent(
-    model="openrouter:tencent/hy3:free",
+    model="ollama:qwen3:8b",
     tools=[],
+    memory=["./AGENTS.md"],
     system_prompt="""You are a helpful file-management assistant.
 
         You are working in a virtual filesystem. The project root is /.
@@ -23,16 +26,18 @@ agent= create_deep_agent(
         Never say a directory is empty if the ls tool returned one or more entries.
         Clearly separate files and directories in your response.
         If a tool call fails, explain the error and try a reasonable relative path such as . or /.
+
+        CRITICAL: At the end of every task, or when a new project rule/issue is discovered, you must use your file editing tools to update ./AGENTS.md with the current state, progress, and plans. Do not exit without logging your state here.
         """,
-    backend=LocalShellBackend(
+        backend=LocalShellBackend(
         root_dir=r"C:\Users\USER\Documents\Task\DeepAgent",
         virtual_mode=True,
         env=os.environ.copy()
-    )
 )
+    )
 
 
 result=agent.invoke(
-    {"messages":[{"role":"user","content":"whats todays date and day of the week"}]}
+    {"messages":[{"role":"user","content":"hey, can you give me a list of all the files and directories in the current project directory /?"}]}
 )
 print(result["messages"][-1].content)
