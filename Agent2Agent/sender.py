@@ -11,8 +11,8 @@ ENV_FILE = PROJECT_DIR / ".env"
 load_dotenv(ENV_FILE, override=True)
 
 env = dotenv_values(ENV_FILE)
-SENDER_EMAIL = env.get("SENDER_EMAIL", "jagankk00723@gmail.com")
-SENDER_PASSWORD = env.get("SENDER_PASSWORD", "kysuedoqzfxnndwr")
+SENDER_EMAIL = env.get("SENDER_EMAIL", "")
+SENDER_PASSWORD = env.get("SENDER_PASSWORD", "")
 
 @tool
 def send_email(recipient_email: str, subject: str, body: str) -> str:
