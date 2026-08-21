@@ -1,0 +1,5 @@
+deepagents==0.7.7
+langchain_core==1.6.0
+langgraph==1.2.11
+pydantic==2.13.4
+python-dotenv==1.2.3

@@ -1,0 +1,15 @@
+Role Overview
+We need a skilled Full Stack Developer to join our team. 
+You will build user interfaces, write solid server logic, and set up databases for our core web apps. 
+You will work with designers, product managers, and other coders to launch new features from start to finish.
+Key ResponsibilitiesBuild Front-End: 
+Create clean, fast, and mobile-friendly user interfaces using HTML, CSS, and modern JavaScript frameworks.
+Develop Back-End: Design and build secure server-side logic, services, and RESTful APIs.
+Manage Databases: Set up, maintain, and optimize SQL or NoSQL databases for smooth data flow.
+Test and Fix: Test software for bugs, troubleshoot issues, and boost application speed.
+Collaborate: Join agile team meetings, plan sprints, and write technical guides.
+Requirements and SkillsDegree: Degree in Computer Science or related field, or proven work experience.
+Front-End Skills: Strong command of HTML5, CSS3, JavaScript, and frameworks like React, Angular, or Vue.
+Back-End Skills: Experience with server languages such as Node.js, Python, Java, or Ruby.
+Database Knowledge: Working know-how of MySQL, PostgreSQL, or MongoDB.
+Tools: Familiarity with Git version control, cloud platforms, and basic CI/CD pipelines.
