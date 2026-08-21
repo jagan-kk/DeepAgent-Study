@@ -109,14 +109,14 @@ uv run graph.py
 1. **`interns.txt`** generated with matched candidates:
 ```
 Jordan Taylor - jordan.taylor@email.com
-Jagan K K - jagsonjob@gmail.com
+Marco - topicsjob@gmail.com
 ```
 
 2. **Console output** showing email dispatch:
 ```
 [tool] Email sent to jordan.taylor@email.com
-[tool] Email sent to jagsonjob@gmail.com
-[ai] Internship offer emails have been sent to Jordan Taylor and Jagan K K.
+[tool] Email sent to topicsjob@gmail.com
+[ai] Internship offer emails have been sent to Jordan Taylor and Marco.
 interns.txt generated: True
 ```
 
